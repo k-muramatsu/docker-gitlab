@@ -112,6 +112,10 @@ OAUTH_TWITTER_APP_SECRET=${OAUTH_TWITTER_APP_SECRET:-}
 OAUTH_GITHUB_API_KEY=${OAUTH_GITHUB_API_KEY:-}
 OAUTH_GITHUB_APP_SECRET=${OAUTH_GITHUB_APP_SECRET:-}
 
+OAUTH_REDMINE_API_KEY=${OAUTH_REDMINE_API_KEY:-}
+OAUTH_REDMINE_APP_SECRET=${OAUTH_REDMINE_APP_SECRET:-}
+OAUTH_REDMINE_BASE_URL=${OAUTH_REDMINE_BASE_URL:-}
+
 GOOGLE_ANALYTICS_ID=${GOOGLE_ANALYTICS_ID:-}
 
 PIWIK_URL=${PIWIK_URL:-}
@@ -572,6 +576,18 @@ else
   sudo -u git -H sed '/{{OAUTH_GITHUB_APP_SECRET}}/d' -i config/gitlab.yml
   sudo -u git -H sed '/{{OAUTH_GITHUB_SCOPE}}/d' -i config/gitlab.yml
 fi
+
+if [ -n "${OAUTH_REDMINE_API_KEY}" -a -n "${OAUTH_REDMINE_APP_SECRET}" -a -n "${OAUTH_REDMINE_BASE_URL}" ]; then
+  OAUTH_ENABLED=true
+  sudo -u git -H sed 's/{{OAUTH_REDMINE_API_KEY}}/'"${OAUTH_REDMINE_API_KEY}"'/' -i config/gitlab.yml
+  sudo -u git -H sed 's/{{OAUTH_REDMINE_APP_SECRET}}/'"${OAUTH_REDMINE_APP_SECRET}"'/' -i config/gitlab.yml
+  sudo -u git -H sed 's/{{OAUTH_REDMINE_BASE_URL}}/'"${OAUTH_REDMINE_BASE_URL}"'/' -i config/gitlab.yml
+else
+  sudo -u git -H sed '/{{OAUTH_REDMINE_API_KEY}}/d' -i config/gitlab.yml
+  sudo -u git -H sed '/{{OAUTH_REDMINE_APP_SECRET}}/d' -i config/gitlab.yml
+  sudo -u git -H sed '/{{OAUTH_REDMINE_BASE_URL}}/d' -i config/gitlab.yml
+fi
+
 
 # google analytics
 if [ -n "${GOOGLE_ANALYTICS_ID}" ]; then

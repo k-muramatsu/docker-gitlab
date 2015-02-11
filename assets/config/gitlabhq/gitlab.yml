@@ -233,6 +233,9 @@ production: &base
       - { name: 'github', app_id: '{{OAUTH_GITHUB_API_KEY}}',
           app_secret: '{{OAUTH_GITHUB_APP_SECRET}}',
           args: { scope: '{{OAUTH_GITHUB_SCOPE}}' } }
+      - { name: 'redmine', app_id: '{{OAUTH_REDMINE_API_KEY}}',
+          app_secret: '{{OAUTH_REDMINE_APP_SECRET}}',
+          args: { redmine_base_url: '{{OAUTH_REDMINE_BASE_URL}}' } }
 
 
 

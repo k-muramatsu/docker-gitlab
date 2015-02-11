@@ -91,6 +91,10 @@ if [ -d "${GEM_CACHE_DIR}" ]; then
   mv ${GEM_CACHE_DIR} vendor/
   chown -R git:git vendor/cache
 fi
+
+# 
+echo "gem 'omniauth-redmine', :github => 'suer/omniauth-redmine'" >> Gemfile.local
+
 sudo -u git -H bundle install --deployment --without development test aws
 
 # make sure everything in /home/git is owned by the git user
