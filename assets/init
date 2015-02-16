@@ -335,6 +335,7 @@ sudo -u git -H cp ${SYSCONF_TEMPLATES_DIR}/gitlabhq/resque.yml        config/res
 sudo -u git -H cp ${SYSCONF_TEMPLATES_DIR}/gitlabhq/database.yml      config/database.yml
 sudo -u git -H cp ${SYSCONF_TEMPLATES_DIR}/gitlabhq/unicorn.rb        config/unicorn.rb
 sudo -u git -H cp ${SYSCONF_TEMPLATES_DIR}/gitlabhq/rack_attack.rb    config/initializers/rack_attack.rb
+sudo -u git -H cp ${SYSCONF_TEMPLATES_DIR}/gitlabhq/devise.rb         config/initializers/devise.rb
 [ "${SMTP_ENABLED}" == "true" ] && \
 sudo -u git -H cp ${SYSCONF_TEMPLATES_DIR}/gitlabhq/smtp_settings.rb  config/initializers/smtp_settings.rb
 
@@ -577,15 +578,20 @@ else
   sudo -u git -H sed '/{{OAUTH_GITHUB_SCOPE}}/d' -i config/gitlab.yml
 fi
 
+# redmine
 if [ -n "${OAUTH_REDMINE_API_KEY}" -a -n "${OAUTH_REDMINE_APP_SECRET}" -a -n "${OAUTH_REDMINE_BASE_URL}" ]; then
   OAUTH_ENABLED=true
   sudo -u git -H sed 's/{{OAUTH_REDMINE_API_KEY}}/'"${OAUTH_REDMINE_API_KEY}"'/' -i config/gitlab.yml
   sudo -u git -H sed 's/{{OAUTH_REDMINE_APP_SECRET}}/'"${OAUTH_REDMINE_APP_SECRET}"'/' -i config/gitlab.yml
   sudo -u git -H sed 's/{{OAUTH_REDMINE_BASE_URL}}/'"${OAUTH_REDMINE_BASE_URL}"'/' -i config/gitlab.yml
+  sudo -u git -H sed 's/{{OAUTH_REDMINE_API_KEY}}/'"${OAUTH_REDMINE_API_KEY}"'/' -i config/initializers/devise.rb
+  sudo -u git -H sed 's/{{OAUTH_REDMINE_APP_SECRET}}/'"${OAUTH_REDMINE_APP_SECRET}"'/' -i config/initializers/devise.rb
+  sudo -u git -H sed 's/{{OAUTH_REDMINE_BASE_URL}}/'"${OAUTH_REDMINE_BASE_URL}"'/' -i config/initializers/devise.rb
 else
   sudo -u git -H sed '/{{OAUTH_REDMINE_API_KEY}}/d' -i config/gitlab.yml
   sudo -u git -H sed '/{{OAUTH_REDMINE_APP_SECRET}}/d' -i config/gitlab.yml
   sudo -u git -H sed '/{{OAUTH_REDMINE_BASE_URL}}/d' -i config/gitlab.yml
+  sudo -u git -H sed '/{{OAUTH_REDMINE_BASE_URL}}/d' -i config/initializers/devise.rb
 fi
 
 
